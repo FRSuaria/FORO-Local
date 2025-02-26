@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>FORO Local</title>
     <style>
         body {
@@ -13,97 +15,164 @@
             background-color: #ffd166;
             text-align: center;
             color: #073b4c;
-            font-weight:700;
+            font-weight: 700;
             font-size: 40px;
+            background-image: radial-gradient(circle, #ffd166 0%, #ffa94d 100%);
         }
         
         #game-container {
             max-width: 1000px;
             min-height: 1000px;
             margin: auto;
-            border: 10px solid black;
+            border: 10px solid #2c3e50;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            padding: 20px;
         }
+
         #grid {
             display: grid;
-            grid-template-columns:       repeat(10,25px);
+            grid-template-columns: repeat(10,40px);
             gap: 5px;
-            background-color: black;
-            padding: 10px;
-            width:400px;
-            justify-content:center;
-            align-content:center;
-            margin-left:auto;
-            margin-right:auto;
-            }
+            background-color: #34495e;
+            padding: 15px;
+            width: fit-content;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
         
         .cell {
-            width: 25px;
-            height: 25px;
-            background-color: #fff;
-            border: 1px solid #ccc;
+            width: 40px;
+            height: 40px;
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
             cursor: pointer;
-            border-radius: 100PX;
-            transition: background-color 0.3s;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
+
         .cell:hover {
-            background-color: #e0e0e0;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
-        .stall { background-color: #ffcc80; } /* Orange for stalls */
-        .shop { background-color: #80d8ff; } /* Blue for shops */
-        .restaurant { background-color: #ff8080; } /* Red for restaurants */
-        .entertainment { background-color: #b388ff; } /* Purple for entertainment */
+
+        .stall { background-color: #f39c12; }
+        .shop { background-color: #3498db; }
+        .restaurant { background-color: #e74c3c; }
+        .entertainment { background-color: #9b59b6; }
+
+        .stall i { color: #ffffff; }
+        .shop i { color: #ffffff; }
+        .restaurant i { color: #ffffff; }
+        .entertainment i { color: #ffffff; }
+
         #resources {
             margin: 20px 0;
             font-size: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
+
+        .resource-item {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
         #controls {
             margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
+
         button {
             padding: 10px 20px;
             margin: 5px;
             background-color: #ef476f;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 20px;
-            font-weight: bold
-        }
-        button:hover {
-            background-color: #780000;
-        }
-        #event-log {
-            margin-top: 20px;
-            font-style: italic;
-            color: #666;
+            font-size: 24px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-    
+        button:hover {
+            background-color: #d64161;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        #event-log {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            font-style: italic;
+            color: #2c3e50;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes placeBuilding {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .building-placed {
+            animation: placeBuilding 0.5s ease;
+        }
     </style>
 </head>
 <body>
     <div id="game-container">
         <h1>FORO LOCAL</h1>
         <div id="resources">
-            Money: $<span id="money">10,000</span> | 
-            Satisfaction: <span id="satisfaction">50</span>% | 
-            Vendor Happiness: <span id="vendor-happiness">50</span>% | 
-            Cleanliness: <span id="cleanliness">75</span>%
+            <div class="resource-item">
+                <i class="fas fa-coins"></i> $<span id="money">10,000</span>
+            </div>
+            <div class="resource-item">
+                <i class="fas fa-smile"></i> <span id="satisfaction">50</span>%
+            </div>
+            <div class="resource-item">
+                <i class="fas fa-heart"></i> <span id="vendor-happiness">50</span>%
+            </div>
+            <div class="resource-item">
+                <i class="fas fa-broom"></i> <span id="cleanliness">75</span>%
+            </div>
         </div>
         <div id="controls">
-            <button onclick="selectBuilding('stall')">Stall ($100)</button>
-            <button onclick="selectBuilding('shop')">Shop ($300)</button>
-            <button onclick="selectBuilding('restaurant')">Restaurant ($500)</button>
-            <button onclick="selectBuilding('entertainment')">Entertainment ($400)</button>
+            <button onclick="selectBuilding('stall')"><i class="fas fa-store-alt"></i> Stall ($100)</button>
+            <button onclick="selectBuilding('shop')"><i class="fas fa-shopping-bag"></i> Shop ($300)</button>
+            <button onclick="selectBuilding('restaurant')"><i class="fas fa-utensils"></i> Restaurant ($500)</button>
+            <button onclick="selectBuilding('entertainment')"><i class="fas fa-theater-masks"></i> Entertainment ($400)</button>
         </div>
         <div id="grid"></div>
         <div id="event-log"></div>
     </div>
 
     <script>
-
         let money = 1000;
         let satisfaction = 50;
         let vendorHappiness = 50;
@@ -111,14 +180,19 @@
         let selectedBuilding = null;
         const gridSize = 10;
         const buildingCosts = { stall: 100, shop: 300, restaurant: 500, entertainment: 400 };
+        const buildingIcons = {
+            stall: 'fa-store-alt',
+            shop: 'fa-shopping-bag',
+            restaurant: 'fa-utensils',
+            entertainment: 'fa-theater-masks'
+        };
         const buildingEffects = {
             stall: { money: 20, satisfaction: 5, vendorHappiness: 5, cleanliness: -5 },
             shop: { money: 50, satisfaction: 10, vendorHappiness: 10, cleanliness: -10 },
             restaurant: { money: 100, satisfaction: 15, vendorHappiness: 15, cleanliness: -15 },
             entertainment: { money: 30, satisfaction: 20, vendorHappiness: 5, cleanliness: -5 }
         };
-      
-        
+
         // Initialize grid
         const grid = document.getElementById('grid');
         for (let i = 0; i < gridSize * gridSize; i++) {
@@ -128,7 +202,6 @@
             grid.appendChild(cell);
         }
 
-        // Select building to place
         function selectBuilding(type) {
             if (money >= buildingCosts[type]) {
                 selectedBuilding = type;
@@ -138,18 +211,19 @@
             }
         }
 
-        // Place building on grid
         function placeBuilding(index) {
             if (selectedBuilding && !grid.children[index].classList.contains(selectedBuilding)) {
+                const cell = grid.children[index];
                 money -= buildingCosts[selectedBuilding];
-                grid.children[index].classList.add(selectedBuilding);
+                cell.classList.add(selectedBuilding);
+                cell.classList.add('building-placed');
+                cell.innerHTML = `<i class="fas ${buildingIcons[selectedBuilding]}"></i>`;
                 updateResources(buildingEffects[selectedBuilding]);
                 document.getElementById('event-log').textContent = `${selectedBuilding} placed!`;
                 selectedBuilding = null;
             }
         }
 
-        // Update resources
         function updateResources(effect) {
             money += effect.money;
             satisfaction = Math.min(100, Math.max(0, satisfaction + effect.satisfaction));
@@ -158,25 +232,40 @@
             updateDisplay();
         }
 
-        // Update UI
         function updateDisplay() {
             document.getElementById('money').textContent = money;
             document.getElementById('satisfaction').textContent = satisfaction;
             document.getElementById('vendor-happiness').textContent = vendorHappiness;
             document.getElementById('cleanliness').textContent = cleanliness;
         }
-        // Random events (example)
+
+        const events = [
+            { 
+                name: 'Festival',
+                icon: 'fa-calendar-star',
+                effect: { money: 200, satisfaction: 10, cleanliness: -10 }
+            },
+            {
+                name: 'Theft',
+                icon: 'fa-exclamation-triangle',
+                effect: { money: -150, satisfaction: -5 }
+            },
+            {
+                name: 'Supply Shortage',
+                icon: 'fa-box-open',
+                effect: { vendorHappiness: -15, money: -50 }
+            }
+        ];
+
         setInterval(() => {
-            const events = [
-                { name: 'Festival', effect: { money: 200, satisfaction: 10, cleanliness: -10 } },
-                { name: 'Theft', effect: { money: -150, satisfaction: -5 } },
-                { name: 'Supply Shortage', effect: { vendorHappiness: -15, money: -50 } }
-            ];
             const event = events[Math.floor(Math.random() * events.length)];
             updateResources(event.effect);
-            document.getElementById('event-log').textContent = `${event.name} occurred!`;
-        }, 10000); // Every 60 seconds
-        
+            const eventLog = document.getElementById('event-log');
+            eventLog.innerHTML = `<i class="fas ${event.icon}"></i> ${event.name} occurred!`;
+            eventLog.style.animation = 'none';
+            eventLog.offsetHeight;
+            eventLog.style.animation = null;
+        }, 10000);
     </script>
 </body>
 </html>
