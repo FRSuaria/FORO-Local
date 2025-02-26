@@ -35,7 +35,7 @@
         .game-over {
             position: absolute;
             top: 50%;
-            left: 50%;
+            left: 60%;
             transform: translate(-50%, -50%);
             background-color:#073b4c;
             padding: 40px;
@@ -89,11 +89,20 @@
             margin: 20px;
         }
 
+        p{color:red;
+         margin-top:150px;
+         margin-bottom:0px;
+         font-size:30px;
+          font-weight:bold;}
+        
         #controls {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
-            width: 100%;
+            width: autopx;
+            margin-top:0px;
+            font-size:25px;
+
         }
 
         #resources {
@@ -128,10 +137,10 @@
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        .stall i { color: #ffd700; }
-        .shop i { color: #00ffff; }
-        .restaurant i { color: #ff6b6b; }
-        .entertainment i { color: #50fa7b; }
+        .stall i { color: #c1121f; }
+        .shop i { color: #ffb703; }
+        .restaurant i { color: #06d6a0; }
+        .entertainment i { color: #fb6f92; }
         .hairdresser i { color: #ff79c6; }
 
         #resources {
@@ -139,15 +148,18 @@
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
             margin: 20px 0;
+    
         }
 
         .resource-item {
-            background: rgba(0, 0, 0, 0.6);
+            background-color: #ffddd2;
             padding: 10px;
-            border: 2px solid #ffd700;
-            border-radius: 4px;
-            font-size: 20px;
+            border: 2px solid #006d77;
+            border-radius: 10px;
+            font-size: 25px;
             display: block;
+            color:#ef233c;
+            font-weight:bold;
         }
 
         button {
@@ -167,15 +179,17 @@
             color: #000;
         }
 
-        h1, h3 {margin-top:0;
-            margin-bottom:0
+        h1,h3 {margin-top:0;
+            margin-bottom:0;
+               text-align:center;
         }
+        
         
         #event-log {
             margin-top: 30px;
             margin-bottom: 30px;
             padding: 10px;
-            color: #073b4c;
+            color: white;
             font-size: 30px;
             diplay: block;
             margin-right:auto;
@@ -186,33 +200,38 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background-color:#073b4c;
             padding: 10px;
-            border: 2px solid #ffd700;
-            color: #ffd700;
+            border: 2px solid #ff0000;
+            color: white;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div id="side-panel">
-        <h2>FORO Local</h2>
-        <div class="level-indicator">Level: <span id="current-level">1</span></div>
-        <h3 style="text-align: center; margin: 10px 0;">Market Resources</h3>
+        <h1>FORO Local</h1>
+        <div class="level-indicator">Level: <span id="current-level">1</span>
+        </div>
+        
         <div id="resources">
             <div class="resource-item" title="Your available money">
-                <i class="fa-solid fa-cash-register"></i> £ <span id="money"> 10,000</span>
+                <i class="fa-solid fa-cash-register"></i>  Cash: £ <span id="money"> 5,000</span>
             </div>
             <div class="resource-item" title="Customer satisfaction level">
-                <i class="fas fa-smile"></i> <span id="satisfaction">50</span>%
+                <i class="fas fa-smile"></i>     Customer Satisfaction: <span id="satisfaction"> 50</span>%
             </div>
             <div class="resource-item" title="Vendor happiness level">
-                <i class="fas fa-heart"></i> <span id="vendor-happiness">50</span>%
+                <i class="fas fa-heart"></i>   Vendor Happiness: <span id="vendor-happiness"> 50</span>%
             </div>
             <div class="resource-item" title="Market cleanliness level">
-                <i class="fas fa-broom"></i> <span id="cleanliness">75</span>%
+                <i class="fas fa-broom"></i>   Market cleanliness <span id="cleanliness">75</span>%
             </div>
-        </div>
-        <p style="font-size: 24px; text-align: center; margin: 10px 0;">Click a button below and place it on the grid!</p>
+        <div id="event-log"></div>
+    </div>
+    </div> 
+    <div id="game-container">
+        <p>Click a button below and place it on the grid!</p>
         <div id="controls">
             <button onclick="selectBuilding('stall')"><i class="fas fa-store-alt"></i> Stall ($100)</button>
             <button onclick="selectBuilding('shop')"><i class="fas fa-shopping-bag"></i> Shop ($300)</button>
@@ -220,9 +239,6 @@
             <button onclick="selectBuilding('entertainment')"><i class="fas fa-theater-masks"></i> Entertainment ($400)</button>
             <button id="hairdresserBtn" onclick="selectBuilding('hairdresser')" style="display: none;"><i class="fas fa-cut"></i> Hairdresser ($600)</button>
         </div>
-        <div id="event-log"></div>
-    </div>
-    <div id="game-container">
         <div id="grid"></div>
     </div>
     <div class="game-over" id="gameOverBanner">
@@ -232,7 +248,7 @@
     </div>
 
     <script>
-        let money = 10000;
+        let money = 5000;
         let satisfaction = 50;
         let vendorHappiness = 50;
         let cleanliness = 75;
@@ -307,7 +323,7 @@
         }
 
         function checkLevel() {
-            if (money >= 10000 && currentLevel === 1) {
+            if (money >= 5000 && currentLevel === 1) {
                 currentLevel = 2;
                 document.getElementById('current-level').textContent = '2';
                 document.getElementById('hairdresserBtn').style.display = 'inline-block';
