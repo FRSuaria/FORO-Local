@@ -6,151 +6,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <title>FORO Local</title>
+    <title>FORO Local RPG</title>
     <style>
         body {
-            font-family: "Amatic SC", serif;
-            background-color: #ffd166;
+            font-family: 'Press Start 2P', cursive;
+            background-color: #2a4858;
             text-align: center;
-            color: #073b4c;
-            font-weight: 700;
-            font-size: 40px;
-            background-image: radial-gradient(circle, #ffd166 0%, #ffa94d 100%);
+            color: #ffffff;
+            font-size: 16px;
+            margin: 0;
+            padding: 20px;
+            background-image: url('https://img.itch.zone/aW1nLzIyMTU0NTkucG5n/original/93hTF2.png');
+            background-size: cover;
         }
         
         #game-container {
-            max-width: 1000px;
-            min-height: 1000px;
+            max-width: 800px;
             margin: auto;
-            border: 10px solid #2c3e50;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.8);
+            border: 4px solid #ffd700;
+            border-radius: 8px;
             padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
         #grid {
             display: grid;
-            grid-template-columns: repeat(10,40px);
-            gap: 5px;
-            background-color: #34495e;
-            padding: 15px;
-            width: fit-content;
+            grid-template-columns: repeat(10, 50px);
+            gap: 2px;
+            background-color: #3c2f2f;
+            padding: 10px;
             margin: 20px auto;
-            border-radius: 10px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+            border-radius: 8px;
+            width: fit-content;
         }
         
         .cell {
-            width: 40px;
-            height: 40px;
-            background-color: #ecf0f1;
-            border: 1px solid #bdc3c7;
+            width: 50px;
+            height: 50px;
+            background: url('https://img.itch.zone/aW1nLzIyMTU0NjAucG5n/original/B5CvUG.png');
+            background-size: cover;
+            border: 1px solid #695753;
             cursor: pointer;
-            border-radius: 8px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 24px;
+            position: relative;
         }
 
-        .cell:hover {
+        .cell.fountain {
+            background: url('https://img.itch.zone/aW1nLzIyMTU0NjEucG5n/original/qK%2FDID.png');
+            background-size: cover;
+            cursor: not-allowed;
+        }
+
+        .cell:hover:not(.fountain) {
             transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        .stall { background-color: #f39c12; }
-        .shop { background-color: #3498db; }
-        .restaurant { background-color: #e74c3c; }
-        .entertainment { background-color: #9b59b6; }
-
-        .stall i { color: #ffffff; }
-        .shop i { color: #ffffff; }
-        .restaurant i { color: #ffffff; }
-        .entertainment i { color: #ffffff; }
+        .stall i { color: #ffd700; }
+        .shop i { color: #00ffff; }
+        .restaurant i { color: #ff6b6b; }
+        .entertainment i { color: #50fa7b; }
+        .hairdresser i { color: #ff79c6; }
 
         #resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
             margin: 20px 0;
-            font-size: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
         }
 
         .resource-item {
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        #controls {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border: 2px solid #ffd700;
+            border-radius: 4px;
+            font-size: 12px;
         }
 
         button {
-            padding: 10px 20px;
+            background: #4a4a4a;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            padding: 10px 15px;
             margin: 5px;
-            background-color: #ef476f;
-            color: white;
-            border: none;
-            border-radius: 8px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
             cursor: pointer;
-            font-family: inherit;
-            font-size: 24px;
-            font-weight: bold;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         button:hover {
-            background-color: #d64161;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: #ffd700;
+            color: #000;
         }
 
         #event-log {
             margin-top: 20px;
-            padding: 15px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 10px;
-            font-style: italic;
-            color: #2c3e50;
-            animation: fadeIn 0.5s ease;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            font-size: 12px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes placeBuilding {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        .building-placed {
-            animation: placeBuilding 0.5s ease;
+        .level-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border: 2px solid #ffd700;
+            color: #ffd700;
         }
     </style>
 </head>
 <body>
+    <div class="level-indicator">Level: <span id="current-level">1</span></div>
     <div id="game-container">
-        <h1>FORO LOCAL</h1>
+        <h1>FORO Market RPG</h1>
         <div id="resources">
             <div class="resource-item">
-                <i class="fas fa-coins"></i> $<span id="money">10,000</span>
+                <i class="fas fa-coins"></i> $<span id="money">10000</span>
             </div>
             <div class="resource-item">
                 <i class="fas fa-smile"></i> <span id="satisfaction">50</span>%
@@ -167,6 +150,7 @@
             <button onclick="selectBuilding('shop')"><i class="fas fa-shopping-bag"></i> Shop ($300)</button>
             <button onclick="selectBuilding('restaurant')"><i class="fas fa-utensils"></i> Restaurant ($500)</button>
             <button onclick="selectBuilding('entertainment')"><i class="fas fa-theater-masks"></i> Entertainment ($400)</button>
+            <button id="hairdresserBtn" onclick="selectBuilding('hairdresser')" style="display: none;"><i class="fas fa-cut"></i> Hairdresser ($600)</button>
         </div>
         <div id="grid"></div>
         <div id="event-log"></div>
@@ -178,19 +162,31 @@
         let vendorHappiness = 50;
         let cleanliness = 75;
         let selectedBuilding = null;
+        let currentLevel = 1;
         const gridSize = 10;
-        const buildingCosts = { stall: 100, shop: 300, restaurant: 500, entertainment: 400 };
+        
+        const buildingCosts = {
+            stall: 100,
+            shop: 300,
+            restaurant: 500,
+            entertainment: 400,
+            hairdresser: 600
+        };
+
         const buildingIcons = {
             stall: 'fa-store-alt',
             shop: 'fa-shopping-bag',
             restaurant: 'fa-utensils',
-            entertainment: 'fa-theater-masks'
+            entertainment: 'fa-theater-masks',
+            hairdresser: 'fa-cut'
         };
+
         const buildingEffects = {
             stall: { money: 20, satisfaction: 5, vendorHappiness: 5, cleanliness: -5 },
             shop: { money: 50, satisfaction: 10, vendorHappiness: 10, cleanliness: -10 },
             restaurant: { money: 100, satisfaction: 15, vendorHappiness: 15, cleanliness: -15 },
-            entertainment: { money: 30, satisfaction: 20, vendorHappiness: 5, cleanliness: -5 }
+            entertainment: { money: 30, satisfaction: 20, vendorHappiness: 5, cleanliness: -5 },
+            hairdresser: { money: 120, satisfaction: 25, vendorHappiness: 20, cleanliness: -10 }
         };
 
         // Initialize grid
@@ -198,63 +194,79 @@
         for (let i = 0; i < gridSize * gridSize; i++) {
             const cell = document.createElement('div');
             cell.classList.add('cell');
-            cell.addEventListener('click', () => placeBuilding(i));
+            
+            // Add fountain in center cells
+            const row = Math.floor(i / gridSize);
+            const col = i % gridSize;
+            if ((row === 4 || row === 5) && (col === 4 || col === 5)) {
+                cell.classList.add('fountain');
+            } else {
+                cell.addEventListener('click', () => placeBuilding(i));
+            }
             grid.appendChild(cell);
+        }
+
+        function isEdgeCell(index) {
+            const row = Math.floor(index / gridSize);
+            const col = index % gridSize;
+            return row === 0 || row === gridSize - 1 || col === 0 || col === gridSize - 1;
         }
 
         function selectBuilding(type) {
             if (money >= buildingCosts[type]) {
                 selectedBuilding = type;
-                document.getElementById('event-log').textContent = `Selected ${type}. Click a cell to place it!`;
+                document.getElementById('event-log').textContent = `Selected ${type}. Place it on the edge of the market!`;
             } else {
                 document.getElementById('event-log').textContent = `Not enough money for ${type}!`;
             }
         }
 
         function placeBuilding(index) {
-            if (selectedBuilding && !grid.children[index].classList.contains(selectedBuilding)) {
-                const cell = grid.children[index];
-                money -= buildingCosts[selectedBuilding];
-                cell.classList.add(selectedBuilding);
-                cell.classList.add('building-placed');
-                cell.innerHTML = `<i class="fas ${buildingIcons[selectedBuilding]}"></i>`;
-                updateResources(buildingEffects[selectedBuilding]);
-                document.getElementById('event-log').textContent = `${selectedBuilding} placed!`;
-                selectedBuilding = null;
+            const cell = grid.children[index];
+            if (selectedBuilding && !cell.classList.contains('fountain') && isEdgeCell(index)) {
+                if (!cell.classList.contains(selectedBuilding)) {
+                    money -= buildingCosts[selectedBuilding];
+                    cell.classList.add(selectedBuilding);
+                    cell.innerHTML = `<i class="fas ${buildingIcons[selectedBuilding]}"></i>`;
+                    updateResources(buildingEffects[selectedBuilding]);
+                    document.getElementById('event-log').textContent = `${selectedBuilding} placed!`;
+                    selectedBuilding = null;
+                    
+                    checkLevel();
+                }
+            } else if (!isEdgeCell(index)) {
+                document.getElementById('event-log').textContent = "Buildings can only be placed on the edge of the market!";
+            }
+        }
+
+        function checkLevel() {
+            if (money >= 15000 && currentLevel === 1) {
+                currentLevel = 2;
+                document.getElementById('current-level').textContent = '2';
+                document.getElementById('hairdresserBtn').style.display = 'inline-block';
+                document.getElementById('event-log').textContent = "Level 2 unlocked! Hairdressers now available!";
             }
         }
 
         function updateResources(effect) {
-            money += effect.money;
-            satisfaction = Math.min(100, Math.max(0, satisfaction + effect.satisfaction));
-            vendorHappiness = Math.min(100, Math.max(0, vendorHappiness + effect.vendorHappiness));
-            cleanliness = Math.min(100, Math.max(0, cleanliness + effect.cleanliness));
+            money += effect.money || 0;
+            satisfaction = Math.min(100, Math.max(0, satisfaction + (effect.satisfaction || 0)));
+            vendorHappiness = Math.min(100, Math.max(0, vendorHappiness + (effect.vendorHappiness || 0)));
+            cleanliness = Math.min(100, Math.max(0, cleanliness + (effect.cleanliness || 0)));
             updateDisplay();
         }
 
         function updateDisplay() {
-            document.getElementById('money').textContent = money;
-            document.getElementById('satisfaction').textContent = satisfaction;
-            document.getElementById('vendor-happiness').textContent = vendorHappiness;
-            document.getElementById('cleanliness').textContent = cleanliness;
+            document.getElementById('money').textContent = Math.round(money);
+            document.getElementById('satisfaction').textContent = Math.round(satisfaction);
+            document.getElementById('vendor-happiness').textContent = Math.round(vendorHappiness);
+            document.getElementById('cleanliness').textContent = Math.round(cleanliness);
         }
 
         const events = [
-            { 
-                name: 'Festival',
-                icon: 'fa-calendar-star',
-                effect: { money: 200, satisfaction: 10, cleanliness: -10 }
-            },
-            {
-                name: 'Theft',
-                icon: 'fa-exclamation-triangle',
-                effect: { money: -150, satisfaction: -5 }
-            },
-            {
-                name: 'Supply Shortage',
-                icon: 'fa-box-open',
-                effect: { vendorHappiness: -15, money: -50 }
-            }
+            { name: 'Festival', icon: 'fa-calendar-star', effect: { money: 200, satisfaction: 10, cleanliness: -10 } },
+            { name: 'Theft', icon: 'fa-exclamation-triangle', effect: { money: -150, satisfaction: -5 } },
+            { name: 'Supply Shortage', icon: 'fa-box-open', effect: { vendorHappiness: -15, money: -50 } }
         ];
 
         setInterval(() => {
@@ -262,10 +274,10 @@
             updateResources(event.effect);
             const eventLog = document.getElementById('event-log');
             eventLog.innerHTML = `<i class="fas ${event.icon}"></i> ${event.name} occurred!`;
-            eventLog.style.animation = 'none';
-            eventLog.offsetHeight;
-            eventLog.style.animation = null;
         }, 10000);
+
+        // Initial display update
+        updateDisplay();
     </script>
 </body>
 </html>
