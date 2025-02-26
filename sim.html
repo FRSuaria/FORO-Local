@@ -3,32 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Square Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <title>FORO Local</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0e4d7;
+            font-family: "Amatic SC", serif;
+            background-color: #ffd166;
             text-align: center;
-            color: #333;
+            color: #073b4c;
+            font-weight:700;
+            font-size: 40px;
         }
+        
         #game-container {
-            max-width: 800px;
-            margin: 20px auto;
+            max-width: 1000px;
+            min-height: 1000px;
+            margin: auto;
+            border: 10px solid black;
         }
         #grid {
             display: grid;
-            grid-template-columns: repeat(10, 50px);
-            gap: 2px;
-            background-color: #a1d6e2;
+            grid-template-columns:       repeat(10,25px);
+            gap: 5px;
+            background-color: black;
             padding: 10px;
-            border-radius: 10px;
-        }
+            width:400px;
+            justify-content:center;
+            align-content:center;
+            margin-left:auto;
+            margin-right:auto;
+            }
+        
         .cell {
-            width: 50px;
-            height: 50px;
+            width: 25px;
+            height: 25px;
             background-color: #fff;
             border: 1px solid #ccc;
             cursor: pointer;
+            border-radius: 100PX;
             transition: background-color 0.3s;
         }
         .cell:hover {
@@ -40,7 +54,7 @@
         .entertainment { background-color: #b388ff; } /* Purple for entertainment */
         #resources {
             margin: 20px 0;
-            font-size: 18px;
+            font-size: 30px;
         }
         #controls {
             margin: 20px 0;
@@ -48,27 +62,32 @@
         button {
             padding: 10px 20px;
             margin: 5px;
-            background-color: #66bb6a;
+            background-color: #ef476f;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-family: inherit;
+            font-size: 20px;
+            font-weight: bold
         }
         button:hover {
-            background-color: #558b2f;
+            background-color: #780000;
         }
         #event-log {
             margin-top: 20px;
             font-style: italic;
             color: #666;
         }
+
+    
     </style>
 </head>
 <body>
     <div id="game-container">
-        <h1>Market Square Simulator</h1>
+        <h1>FORO LOCAL</h1>
         <div id="resources">
-            Money: $<span id="money">1000</span> | 
+            Money: $<span id="money">10,000</span> | 
             Satisfaction: <span id="satisfaction">50</span>% | 
             Vendor Happiness: <span id="vendor-happiness">50</span>% | 
             Cleanliness: <span id="cleanliness">75</span>%
@@ -84,6 +103,7 @@
     </div>
 
     <script>
+
         let money = 1000;
         let satisfaction = 50;
         let vendorHappiness = 50;
@@ -97,7 +117,8 @@
             restaurant: { money: 100, satisfaction: 15, vendorHappiness: 15, cleanliness: -15 },
             entertainment: { money: 30, satisfaction: 20, vendorHappiness: 5, cleanliness: -5 }
         };
-
+      
+        
         // Initialize grid
         const grid = document.getElementById('grid');
         for (let i = 0; i < gridSize * gridSize; i++) {
@@ -144,7 +165,6 @@
             document.getElementById('vendor-happiness').textContent = vendorHappiness;
             document.getElementById('cleanliness').textContent = cleanliness;
         }
-
         // Random events (example)
         setInterval(() => {
             const events = [
@@ -155,7 +175,8 @@
             const event = events[Math.floor(Math.random() * events.length)];
             updateResources(event.effect);
             document.getElementById('event-log').textContent = `${event.name} occurred!`;
-        }, 10000); // Every 10 seconds
+        }, 10000); // Every 60 seconds
+        
     </script>
 </body>
 </html>
