@@ -20,7 +20,35 @@
             font-size: 40px;
             margin: 0;
             padding: 20px;
-            background-color:#94d2bd;
+            background: linear-gradient(45deg, #ee6352, #59cd90, #3fa7d6, #fac05e);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .game-over {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border: 5px solid #ff0000;
+            border-radius: 15px;
+            z-index: 1000;
+            display: none;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
         
         #game-container {
@@ -154,6 +182,11 @@
         <div id="grid"></div>
         <div id="event-log"></div>
     </div>
+    <div class="game-over" id="gameOverBanner">
+        <h1>GAME OVER!</h1>
+        <p id="gameOverReason"></p>
+        <button onclick="location.reload()">Try Again</button>
+    </div>
 
     <script>
         let money = 10000;
@@ -260,6 +293,21 @@
             document.getElementById('satisfaction').textContent = Math.round(satisfaction);
             document.getElementById('vendor-happiness').textContent = Math.round(vendorHappiness);
             document.getElementById('cleanliness').textContent = Math.round(cleanliness);
+
+            if (money <= 0) {
+                gameOver("You ran out of money!");
+            } else if (satisfaction <= 0) {
+                gameOver("Customer satisfaction dropped to zero!");
+            } else if (vendorHappiness <= 0) {
+                gameOver("All vendors left the market!");
+            } else if (cleanliness <= 0) {
+                gameOver("The market became too dirty!");
+            }
+        }
+
+        function gameOver(reason) {
+            document.getElementById('gameOverReason').textContent = reason;
+            document.getElementById('gameOverBanner').style.display = 'block';
         }
 
         const events = [
