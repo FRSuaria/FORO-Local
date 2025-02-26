@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Square Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0e4d7;
+            text-align: center;
+            color: #333;
+        }
+        #game-container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(10, 50px);
+            gap: 2px;
+            background-color: #a1d6e2;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .cell:hover {
+            background-color: #e0e0e0;
+        }
+        .stall { background-color: #ffcc80; } /* Orange for stalls */
+        .shop { background-color: #80d8ff; } /* Blue for shops */
+        .restaurant { background-color: #ff8080; } /* Red for restaurants */
+        .entertainment { background-color: #b388ff; } /* Purple for entertainment */
+        #resources {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        #controls {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #66bb6a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #558b2f;
+        }
+        #event-log {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Market Square Simulator</h1>
+        <div id="resources">
+            Money: $<span id="money">1000</span> | 
+            Satisfaction: <span id="satisfaction">50</span>% | 
+            Vendor Happiness: <span id="vendor-happiness">50</span>% | 
+            Cleanliness: <span id="cleanliness">75</span>%
+        </div>
+        <div id="controls">
+            <button onclick="selectBuilding('stall')">Stall ($100)</button>
+            <button onclick="selectBuilding('shop')">Shop ($300)</button>
+            <button onclick="selectBuilding('restaurant')">Restaurant ($500)</button>
+            <button onclick="selectBuilding('entertainment')">Entertainment ($400)</button>
+        </div>
+        <div id="grid"></div>
+        <div id="event-log"></div>
+    </div>
+
+    <script>
+        let money = 1000;
+        let satisfaction = 50;
+        let vendorHappiness = 50;
+        let cleanliness = 75;
+        let selectedBuilding = null;
+        const gridSize = 10;
+        const buildingCosts = { stall: 100, shop: 300, restaurant: 500, entertainment: 400 };
+        const buildingEffects = {
+            stall: { money: 20, satisfaction: 5, vendorHappiness: 5, cleanliness: -5 },
+            shop: { money: 50, satisfaction: 10, vendorHappiness: 10, cleanliness: -10 },
+            restaurant: { money: 100, satisfaction: 15, vendorHappiness: 15, cleanliness: -15 },
+            entertainment: { money: 30, satisfaction: 20, vendorHappiness: 5, cleanliness: -5 }
+        };
+
+        // Initialize grid
+        const grid = document.getElementById('grid');
+        for (let i = 0; i < gridSize * gridSize; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.addEventListener('click', () => placeBuilding(i));
+            grid.appendChild(cell);
+        }
+
+        // Select building to place
+        function selectBuilding(type) {
+            if (money >= buildingCosts[type]) {
+                selectedBuilding = type;
+                document.getElementById('event-log').textContent = `Selected ${type}. Click a cell to place it!`;
+            } else {
+                document.getElementById('event-log').textContent = `Not enough money for ${type}!`;
+            }
+        }
+
+        // Place building on grid
+        function placeBuilding(index) {
+            if (selectedBuilding && !grid.children[index].classList.contains(selectedBuilding)) {
+                money -= buildingCosts[selectedBuilding];
+                grid.children[index].classList.add(selectedBuilding);
+                updateResources(buildingEffects[selectedBuilding]);
+                document.getElementById('event-log').textContent = `${selectedBuilding} placed!`;
+                selectedBuilding = null;
+            }
+        }
+
+        // Update resources
+        function updateResources(effect) {
+            money += effect.money;
+            satisfaction = Math.min(100, Math.max(0, satisfaction + effect.satisfaction));
+            vendorHappiness = Math.min(100, Math.max(0, vendorHappiness + effect.vendorHappiness));
+            cleanliness = Math.min(100, Math.max(0, cleanliness + effect.cleanliness));
+            updateDisplay();
+        }
+
+        // Update UI
+        function updateDisplay() {
+            document.getElementById('money').textContent = money;
+            document.getElementById('satisfaction').textContent = satisfaction;
+            document.getElementById('vendor-happiness').textContent = vendorHappiness;
+            document.getElementById('cleanliness').textContent = cleanliness;
+        }
+
+        // Random events (example)
+        setInterval(() => {
+            const events = [
+                { name: 'Festival', effect: { money: 200, satisfaction: 10, cleanliness: -10 } },
+                { name: 'Theft', effect: { money: -150, satisfaction: -5 } },
+                { name: 'Supply Shortage', effect: { vendorHappiness: -15, money: -50 } }
+            ];
+            const event = events[Math.floor(Math.random() * events.length)];
+            updateResources(event.effect);
+            document.getElementById('event-log').textContent = `${event.name} occurred!`;
+        }, 10000); // Every 10 seconds
+    </script>
+</body>
+</html>
