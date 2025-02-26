@@ -73,11 +73,12 @@
             justify-content: center;
             padding: 20px;
             background-color: rgba(205, 180, 219, 0.3);
+            margin-top:0;
         }
 
         #grid {
             display: grid;
-            grid-template-columns: repeat(10, 60px);
+            grid-template-columns: repeat(10,50px);
             gap: 4px;
             
             background: linear-gradient(45deg, #ee6352, #59cd90, #3fa7d6, #fac05e);
@@ -89,11 +90,13 @@
             margin: 20px;
         }
 
-        p{color:red;
-         margin-top:150px;
-         margin-bottom:0px;
-         font-size:30px;
-          font-weight:bold;}
+        p {
+            color:red;
+            margin-top:20px;
+            margin-bottom:0px;
+            font-size:30px;
+            font-weight:bold;
+        }
         
         #controls {
             display: flex;
@@ -112,10 +115,10 @@
         }
         
         .cell {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #8b4513;
+            border: 1px solid #1b263b;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -132,6 +135,11 @@
             cursor: not-allowed;
         }
 
+        .cell.tree {
+        bacground-color:red;
+        cursor:not-allowed;
+        }
+        
         .cell:hover:not(.fountain) {
             transform: scale(1.1);
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
@@ -142,6 +150,7 @@
         .restaurant i { color: #06d6a0; }
         .entertainment i { color: #fb6f92; }
         .hairdresser i { color: #ff79c6; }
+        .cleaners i {color:red;}
 
         #resources {
             display: grid;
@@ -163,9 +172,9 @@
         }
 
         button {
-            background: ##ffd166;
-            color: #ef476f;
-            border: 2px solid #ef476f;
+            background: #f8edeb;
+            color: black;
+            border: 2px solid #006d77;
             padding: 10px 15px;
             margin: 5px;
             font-family: amatic SC, sans;                font-size: 20px;
@@ -175,8 +184,8 @@
         }
 
         button:hover {
-            background: #ffd700;
-            color: #000;
+            background: #f08080;
+            color: white;
         }
 
         h1,h3 {margin-top:0;
@@ -186,8 +195,6 @@
         
         
         #event-log {
-            margin-top: 30px;
-            margin-bottom: 30px;
             padding: 10px;
             color: white;
             font-size: 30px;
@@ -197,14 +204,12 @@
         }
 
         .level-indicator {
-            position: fixed;
             top: 20px;
             right: 20px;
-            background-color:#073b4c;
             padding: 10px;
-            border: 2px solid #ff0000;
-            color: white;
+            color: #ffd700;
             font-weight: bold;
+            text-align:center;
         }
     </style>
 </head>
@@ -212,11 +217,11 @@
     <div id="side-panel">
         <h1>FORO Local</h1>
         <div class="level-indicator">Level: <span id="current-level">1</span>
+             <div id="event-log"></div>
         </div>
-        
         <div id="resources">
             <div class="resource-item" title="Your available money">
-                <i class="fa-solid fa-cash-register"></i>  Cash: £ <span id="money"> 10,000</span>
+                <i class="fa-solid fa-cash-register"></i>  Cash: £ <span id="money"> 1,000</span>
             </div>
             <div class="resource-item" title="Customer satisfaction level">
                 <i class="fas fa-smile"></i>     Customer Satisfaction: <span id="satisfaction"> 50</span>%
@@ -227,12 +232,13 @@
             <div class="resource-item" title="Market cleanliness level">
                 <i class="fas fa-broom"></i>   Market cleanliness <span id="cleanliness">75</span>%
             </div>
-        <div id="event-log"></div>
     </div>
+       
     </div> 
     <div id="game-container">
         <p>Click a button below and place it on the grid!</p>
         <div id="controls">
+            <button onclick="selectBuilding('cleaners')"><i class="fas fa-broom"></i> Clean ($90)</button>
             <button onclick="selectBuilding('stall')"><i class="fas fa-store-alt"></i> Stall ($100)</button>
             <button onclick="selectBuilding('shop')"><i class="fas fa-shopping-bag"></i> Shop ($300)</button>
             <button onclick="selectBuilding('restaurant')"><i class="fas fa-utensils"></i> Restaurant ($500)</button>
@@ -248,7 +254,7 @@
     </div>
 
     <script>
-        let money = 10000;
+        let money = 1000;
         let satisfaction = 50;
         let vendorHappiness = 50;
         let cleanliness = 75;
@@ -261,7 +267,8 @@
             shop: 300,
             restaurant: 500,
             entertainment: 400,
-            hairdresser: 600
+            hairdresser: 600,
+            cleaners: 90
         };
 
         const buildingIcons = {
@@ -269,15 +276,17 @@
             shop: 'fa-shopping-bag',
             restaurant: 'fa-utensils',
             entertainment: 'fa-theater-masks',
-            hairdresser: 'fa-cut'
+            hairdresser: 'fa-cut',
+            cleaners: 'fa-broom'
         };
 
         const buildingEffects = {
             stall: { money: 20, satisfaction: 5, vendorHappiness: 5, cleanliness: -5 },
             shop: { money: 50, satisfaction: 10, vendorHappiness: 10, cleanliness: -10 },
-            restaurant: { money: 100, satisfaction: 15, vendorHappiness: 15, cleanliness: -15 },
-            entertainment: { money: 30, satisfaction: 20, vendorHappiness: 5, cleanliness: -5 },
-            hairdresser: { money: 120, satisfaction: 25, vendorHappiness: 20, cleanliness: -10 }
+            restaurant: { money: 100, satisfaction: 15, vendorHappiness: 10, cleanliness: -15 },
+            entertainment: { money: 160, satisfaction: 20, vendorHappiness: -10, cleanliness: -5 },
+            hairdresser: { money: 120, satisfaction: 25, vendorHappiness: 5, cleanliness: -10 },
+            cleaners: { money: -50, satisfaction: 5, vendorHappiness: 5, cleanliness: +20 }
         };
 
         // Initialize grid
@@ -300,7 +309,7 @@
         function selectBuilding(type) {
             if (money >= buildingCosts[type]) {
                 selectedBuilding = type;
-                document.getElementById('event-log').textContent = `Selected ${type}. Place it on the market!`;
+                //document.getElementById('event-log').textContent = `Selected ${type}. Place it on the market!`;
             } else {
                 document.getElementById('event-log').textContent = `Not enough money for ${type}!`;
             }
@@ -314,7 +323,7 @@
                     cell.classList.add(selectedBuilding);
                     cell.innerHTML = `<i class="fas ${buildingIcons[selectedBuilding]}"></i>`;
                     updateResources(buildingEffects[selectedBuilding]);
-                    document.getElementById('event-log').textContent = `${selectedBuilding} placed!`;
+                    //document.getElementById('event-log').textContent = `${selectedBuilding} placed!`;
                     selectedBuilding = null;
                     
                     checkLevel();
@@ -323,7 +332,7 @@
         }
 
         function checkLevel() {
-            if (money >= 10000 && currentLevel === 1) {
+            if (money >= 2000 && currentLevel === 1) {
                 currentLevel = 2;
                 document.getElementById('current-level').textContent = '2';
                 document.getElementById('hairdresserBtn').style.display = 'inline-block';
@@ -379,7 +388,7 @@
                 }
             }
             checkLevel();
-        }, 5000);
+        }, 1000);
 
         // Random events
         setInterval(() => {
@@ -387,7 +396,7 @@
             updateResources(event.effect);
             const eventLog = document.getElementById('event-log');
             eventLog.innerHTML = `<i class="fas ${event.icon}"></i> ${event.name} occurred!`;
-        }, 10000);
+        }, 20000);
 
         // Initial display update
         updateDisplay();
