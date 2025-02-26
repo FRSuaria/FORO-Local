@@ -367,6 +367,21 @@
             { name: 'Supply Shortage', icon: 'fa-box-open', effect: { vendorHappiness: -15, money: -50 } }
         ];
 
+        // Regular income from buildings
+        setInterval(() => {
+            const cells = grid.children;
+            for (let i = 0; i < cells.length; i++) {
+                const cell = cells[i];
+                for (const buildingType in buildingEffects) {
+                    if (cell.classList.contains(buildingType)) {
+                        updateResources(buildingEffects[buildingType]);
+                    }
+                }
+            }
+            checkLevel();
+        }, 5000);
+
+        // Random events
         setInterval(() => {
             const event = events[Math.floor(Math.random() * events.length)];
             updateResources(event.effect);
