@@ -239,10 +239,6 @@
             grid.appendChild(cell);
         }
 
-        function isEdgeCell(index) {
-        const row = Math.floor(index / gridSize);
-        const col = index % gridSize;
-        return row === 0 || row === gridSize - 1 || col === 0 || col === gridSize - 1;
         function selectBuilding(type) {
             if (money >= buildingCosts[type]) {
                 selectedBuilding = type;
@@ -254,7 +250,7 @@
 
         function placeBuilding(index) {
             const cell = grid.children[index];
-            if (selectedBuilding && !cell.classList.contains('fountain') && isEdgeCell(index)) {
+            if (selectedBuilding && !cell.classList.contains('fountain')) {
                 if (!cell.classList.contains(selectedBuilding)) {
                     money -= buildingCosts[selectedBuilding];
                     cell.classList.add(selectedBuilding);
@@ -265,8 +261,6 @@
                     
                     checkLevel();
                 }
-            } else if (!isEdgeCell(index)) {
-                document.getElementById('event-log').textContent = "Buildings can only be placed on the edge of the market!";
             }
         }
 
