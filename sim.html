@@ -39,7 +39,7 @@
 
         @media (max-width: 480px) {
             body {
-                font-size: 18px;
+                font-size: 16px;
             }
         }
 
@@ -52,7 +52,7 @@
         .game-over {
             position: absolute;
             top: 50%;
-            left: 60%;
+            left: 50%;
             transform: translate(-50%, -50%);
             background-color:#073b4c;
             padding: 40px;
@@ -62,6 +62,23 @@
             display: none;
             animation: pulse 2s infinite;
             text-align: center;
+            width: 80%;
+            max-width: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .game-over {
+                padding: 30px;
+                width: 90%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-over {
+                padding: 20px;
+                width: 95%;
+                border-width: 3px;
+            }
         }
 
         @keyframes pulse {
@@ -88,6 +105,20 @@
                 height: auto;
                 border-right: none;
                 border-bottom: 4px solid #ffd700;
+                padding: 15px;
+                gap: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #side-panel {
+                padding: 10px;
+                gap: 5px;
+                border-bottom-width: 3px;
+            }
+            
+            #side-panel h1 {
+                font-size: 1.8em;
             }
         }
 
@@ -107,6 +138,29 @@
             #game-container {
                 width: 100%;
                 padding: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #game-container {
+                padding: 8px;
+            }
+            
+            #game-container p {
+                font-size: 24px;
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            #game-container {
+                padding: 5px;
+            }
+            
+            #game-container p {
+                font-size: 20px;
+                margin-top: 8px;
             }
         }
 
@@ -133,9 +187,17 @@
 
         @media (max-width: 480px) {
             #grid {
-                grid-template-columns: repeat(10, 30px);
+                grid-template-columns: repeat(10, 25px);
                 gap: 2px;
                 padding: 5px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            #grid {
+                grid-template-columns: repeat(10, 20px);
+                gap: 1px;
+                margin: 5px;
             }
         }
 
@@ -161,6 +223,8 @@
             #controls {
                 font-size: 20px;
                 gap: 5px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
 
@@ -168,6 +232,27 @@
             #controls {
                 font-size: 16px;
                 gap: 3px;
+                margin-bottom: 10px;
+            }
+            
+            #controls button {
+                flex: 1 0 40%;
+                min-width: 100px;
+                margin: 2px;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            #controls {
+                font-size: 14px;
+                gap: 2px;
+            }
+            
+            #controls button {
+                flex: 1 0 45%;
+                min-width: 90px;
+                margin: 1px;
+                padding: 4px 6px;
             }
         }
 
@@ -197,14 +282,25 @@
                 width: 40px;
                 height: 40px;
                 font-size: 20px;
+                border-radius: 6px;
             }
         }
 
         @media (max-width: 480px) {
             .cell {
-                width: 30px;
-                height: 30px;
-                font-size: 16px;
+                width: 25px;
+                height: 25px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .cell {
+                width: 20px;
+                height: 20px;
+                font-size: 12px;
+                border-radius: 3px;
             }
         }
 
@@ -247,27 +343,45 @@
             display: block;
             color:#ef233c;
             font-weight:bold;
+            text-align: center;
         }
 
         @media (max-width: 768px) {
             #resources {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+                margin: 15px 0;
             }
             
             .resource-item {
                 font-size: 20px;
                 padding: 8px;
+                border-width: 1px;
             }
         }
 
         @media (max-width: 480px) {
             #resources {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 5px;
+                margin: 10px 0;
             }
             
             .resource-item {
-                font-size: 18px;
+                font-size: 16px;
                 padding: 5px;
+                border-radius: 8px;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            #resources {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            
+            .resource-item {
+                font-size: 14px;
+                padding: 4px;
             }
         }
 
@@ -314,9 +428,32 @@
             padding: 10px;
             color: white;
             font-size: 30px;
-            diplay: block;
-            margin-right:auto;
-            margin-left:auto;
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        @media (max-width: 768px) {
+            #event-log {
+                font-size: 24px;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #event-log {
+                font-size: 18px;
+                padding: 5px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            #event-log {
+                font-size: 16px;
+                padding: 3px;
+            }
         }
 
         .level-indicator {
@@ -325,7 +462,13 @@
             padding: 10px;
             color: #ffd700;
             font-weight: bold;
-            text-align:center;
+            text-align: center;
+        }
+        
+        @media (max-width: 480px) {
+            .level-indicator {
+                padding: 5px;
+            }
         }
     </style>
 </head>
